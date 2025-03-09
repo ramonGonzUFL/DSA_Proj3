@@ -1,3 +1,4 @@
+#include "lib.hh"
 #include <SFML/Graphics.hpp>
 #include <SFML/System/Vector2.hpp>
 #include <iostream>
@@ -14,7 +15,7 @@ int main() {
     return -1;
   }
 
-  sf::Text text(font, "Hello World", 50);
+  sf::Text text(font, get_message(), 50);
   text.setFillColor(sf::Color::White);
   text.setPosition(sf::Vector2f(100, 100));
 
