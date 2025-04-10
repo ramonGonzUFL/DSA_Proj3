@@ -8,10 +8,13 @@
     in
     {
       devShell = pkgs.mkShell {
-        buildInputs = with pkgs; [
-          # sfml # Uses git based in cmake. Switch to this later? or keep the git based for other partners
+	nativeBuildInputs = with pkgs; [
           cmake
           pkg-config
+          clang-tools
+        ];
+        buildInputs = with pkgs; [
+          # sfml # Uses git based in cmake. Switch to this later? or keep the git based for other partners
           xorg.libXrandr
           xorg.libXcursor
           xorg.libXi
@@ -20,7 +23,6 @@
           libvorbis
           libGL
           freetype
-          clang-tools
         ];
       };
     }
