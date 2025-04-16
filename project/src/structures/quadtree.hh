@@ -1,17 +1,23 @@
 #pragma once
 
+#include "lib.hh"
 #include <SFML/System/Vector2.hpp>
+#include <iostream>
 #include <memory>
 #include <vector>
 
 template <typename T> sf::Vector2f get_position(const T &value);
 
 // For debug purposes.
-template <> sf::Vector2f get_position<sf::Vector2f>(const sf::Vector2f &value) {
+template <>
+inline sf::Vector2f get_position<sf::Vector2f>(const sf::Vector2f &value) {
   return value;
 }
 
-// TODO: Implement equivalent method for data entries.
+// Equivalent method for data entries.
+template <> inline sf::Vector2f get_position<House>(const House &value) {
+  return value.position;
+}
 
 template <class T> class Quadtree {
   std::unique_ptr<Quadtree<T>> top_left{nullptr};
@@ -149,6 +155,17 @@ template <class T> class Quadtree {
   }
 
 public:
+  Quadtree() = default;
+
+  Quadtree(float left_bound, float right_bound, float top_bound,
+           float bottom_bound)
+      : left(left_bound), right(right_bound), top(top_bound),
+        bottom(bottom_bound) {
+    if (right_bound - left_bound == 0 || bottom_bound - top_bound == 0) {
+      std::cerr << "Warning: Quadtree created with zero size" << std::endl;
+    }
+  }
+
   void add_item(std::unique_ptr<T> &&item) {
     const sf::Vector2f pos = get_position(*item);
     while (!is_in_bounds(pos))
@@ -169,3 +186,6 @@ public:
     return result;
   }
 };
+
+extern template class Quadtree<sf::Vector2f>;
+extern template class Quadtree<House>;

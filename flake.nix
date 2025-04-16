@@ -8,10 +8,11 @@
     in
     {
       devShell = pkgs.mkShell {
-	nativeBuildInputs = with pkgs; [
+        nativeBuildInputs = with pkgs; [
           cmake
           pkg-config
           clang-tools
+          neocmakelsp
         ];
         buildInputs = with pkgs; [
           # sfml # Uses git based in cmake. Switch to this later? or keep the git based for other partners
