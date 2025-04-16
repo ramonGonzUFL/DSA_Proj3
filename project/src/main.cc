@@ -15,7 +15,7 @@ int main() {
     return -1;
   }
 
-  sf::Text text(font, get_message(), 50);
+  sf::Text text(font, "Hello", 50);
   text.setFillColor(sf::Color::White);
   text.setPosition(sf::Vector2f(100, 100));
 

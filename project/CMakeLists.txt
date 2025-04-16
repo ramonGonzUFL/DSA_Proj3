@@ -15,8 +15,20 @@ FetchContent_Declare(SFML
     SYSTEM)
 FetchContent_MakeAvailable(SFML)
 
+# Add stricter compiler flags to catch errors quicker.
+if(MSVC)
+    add_compile_options(/W4)
+else()
+    add_compile_options(
+        -Wall        # Enable all common warnings
+        -Wextra      # Enable extra warnings
+        -Wpedantic   # Issue warnings for strict ISO C/C++
+        -Wunused     # Warn about unused variables/functions
+    )
+endif()
+
 # Create library from src (excluding main.cc)
-file(GLOB SRC_FILES "src/*.cc")
+file(GLOB_RECURSE SRC_FILES "src/*.cc")
 list(REMOVE_ITEM SRC_FILES "${CMAKE_SOURCE_DIR}/src/main.cc")
 
 add_library(project_lib STATIC ${SRC_FILES})
@@ -38,6 +50,9 @@ add_subdirectory(tests)
 
 # Add test runner subdirectory
 add_subdirectory(test_runner)
+
+# Add data generation subdirectory
+add_subdirectory(data_gen)
 
 # Custom target to run tests
 add_custom_target(run-tests
