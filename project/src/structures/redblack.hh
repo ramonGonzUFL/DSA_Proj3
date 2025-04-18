@@ -1,33 +1,22 @@
-#include<iostream>
+#include <iostream>
 #include <algorithm>
+#include "../lib.hh"
 
 enum Color{Red, Black};
 //https://stackoverflow.com/questions/27080879/implementing-enumeration-types-in-c
 struct RBTree{
-    std::string address;
-    int price;
+    House house;
+
     Color color_node;
-    RBTree *left;
-    RBTree *right;
-    RBTree *parent;
-    RBTree(int x, std::string ad = ""): price(x), address(ad), color_node(Red), left (nullptr), right(nullptr), parent(nullptr){}
+    RBTree* left;
+    RBTree* right;
+    RBTree* parent;
+    RBTree(House house): house(house), color_node(Red), left (nullptr), right(nullptr), parent(nullptr){}
 };
 
 class RedBlackTree{
 private:
-    RBTree* insert_node(RBTree *root, RBTree *newnode){
-        if (root == nullptr){
-            return newnode;
-        }
-        if (newnode->price < root->price){
-            root->left = insert_node(root->left, newnode);
-            root->left->parent = root;
-        }
-        else{
-            root->right = insert_node(root->right, newnode);
-            root->right->parent = root;
-        }
-    }
+    RBTree* insert_node(RBTree *root, RBTree *newnode);
 
     void left_rotate(RBTree*& root, RBTree* x){
         RBTree* y = x->right;
@@ -112,17 +101,17 @@ private:
 
 public:
     RBTree* root = nullptr;
-    void insert(int price, const std::string& address){         //combines functionality of insert functions above
-        RBTree* newNode = new RBTree(price, address);
+    void insert(House house){         //combines functionality of insert functions above
+        RBTree* newNode = new RBTree(house);
         root = insert_node(root, newNode);
         balance(root, newNode);
     }
 
     RBTree* search(RBTree* node, int price) {
-        if (node == nullptr || node->price == price) {
+        if (node == nullptr || node->house.price == price) {
             return node;
         }
-        if (price < node->price) {
+        if (price < node->house.price) {
             return search(node->left, price);
         }
         return search(node->right, price);
@@ -133,14 +122,14 @@ public:
         if (!node){
             return range;
         }
-        if (min < node->price){
+        if (min < node->house.price){
             std::vector<RBTree*> left = price_range(node->left, min, max);
             range.insert(range.end(), left.begin(), left.end());
         }
-        if (min <= node->price && node->price <= max){
+        if (min <= node->house.price && node->house.price <= max){
             range.push_back(node);
         }
-        if (max > node->price){
+        if (max > node->house.price){
             std::vector<RBTree*> right = price_range(node->right, min, max);
             range.insert(range.end(), right.begin(), right.end());
         }
