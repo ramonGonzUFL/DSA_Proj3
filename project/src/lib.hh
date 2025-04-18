@@ -2,6 +2,7 @@
 #include <SFML/System/Vector2.hpp>
 #include <istream>
 #include <ostream>
+#include <sstream>
 #include <string>
 
 struct Address {
