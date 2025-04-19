@@ -1,4 +1,5 @@
 #include "./button.hh"
+#include <algorithm>
 
 bool UIComponent::contains(const sf::Vector2f &point) const {
   return point.x >= position.x && point.x <= position.x + size.x &&
