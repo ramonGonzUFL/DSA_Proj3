@@ -4,6 +4,7 @@
 #include <ostream>
 #include <sstream>
 #include <string>
+#include <vector>
 
 struct Address {
   std::string house_number; // 1234
@@ -31,3 +32,5 @@ struct House {
 
   std::string to_string() const;
 };
+
+std::vector<House> load_file(const std::string &filename);

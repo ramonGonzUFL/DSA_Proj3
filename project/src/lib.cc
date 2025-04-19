@@ -1,4 +1,5 @@
 #include "lib.hh"
+#include <fstream>
 #include <iomanip>
 
 std::ostream &operator<<(std::ostream &os, const Address &address) {
@@ -38,4 +39,19 @@ std::string House::to_string() const {
          std::to_string(position.y) + " " + price_stream.str() + " " +
          std::to_string(area) + " " + std::to_string(room_count) + " " +
          std::to_string(bathroom_count) + " " + features;
+}
+
+std::vector<House> load_file(const std::string &filename) {
+  std::vector<House> houses;
+  std::ifstream file(filename);
+  std::string line;
+  while (std::getline(file, line)) {
+    if (line.empty())
+      continue;
+    std::istringstream iss(line);
+    House house;
+    iss >> house;
+    houses.push_back(house);
+  }
+  return houses;
 }
