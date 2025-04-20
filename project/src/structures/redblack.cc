@@ -1,4 +1,5 @@
 #include "redblack.hh"
+#include "lib.hh"
 
 RBTree* RedBlackTree::insert_node(RBTree *root, RBTree *newnode){
     if (root == nullptr){
@@ -116,13 +117,13 @@ RBTree* RedBlackTree::search(RBTree* node, float price){
     return search(node->right, price);
 }
 
-std::vector<RBTree*> RedBlackTree::price_range(int min, int max){
-    std::vector<RBTree*> result;
+std::vector<House*> RedBlackTree::price_range(float min, float max){
+    std::vector<House*> result;
     price_range_helper(root, min, max, result);
     return result;
 }
 
-void RedBlackTree::price_range_helper(RBTree* node, int min, int max, std::vector<RBTree*>& result){
+void RedBlackTree::price_range_helper(RBTree* node, float min, float max, std::vector<House*>& result){
     if (!node){
         return;
     }
@@ -130,7 +131,7 @@ void RedBlackTree::price_range_helper(RBTree* node, int min, int max, std::vecto
         price_range_helper(node->left, min, max, result);
     }
     if (min <= node->house.price && node->house.price <= max){
-        result.push_back(node);
+        result.push_back(&node->house);
     }
     if (max > node->house.price){
         price_range_helper(node->right, min, max, result);

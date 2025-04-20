@@ -40,50 +40,43 @@ private:
 
 
 public:
-    explicit BPlusTree(int order);
+    explicit BPlusTree(size_t order);
     void insert(K key, V value);
     void printLeaves();
     void printTree();
     V* search(K key);
-    void printRange(const K& low, const K& high);
-
-
-
+    std::vector<V*> getRange(const K& low, const K& high);
 };
+
 template <typename K, typename V>
-void BPlusTree<K,V>::printRange(const K& low, const K& high) {
+std::vector<V*> BPlusTree<K,V>::getRange(const K& low, const K& high) {
+    std::vector<V*> out;
+    
     if (!root) {
-        std::cout << "Empty Tree" << std::endl;
-        return;
+        return out;
     }
     //Find the first leaf that could be the low value
     LeafNode* leaf = findLeaf(low);
+    
 
     //walk to the first key >= low in that leaf
     auto it = std::lower_bound(leaf->keys.begin(), leaf->keys.end(),low);
     size_t idx = it - leaf->keys.begin();
-    std::cout << "[" << low << "-" << high << "]:\n" ;
-
-    bool first = true;
+    
     //scan leaf pages until > high
     while (leaf) {
         for (size_t i = idx; i<leaf->keys.size(); ++i) {
             K key = leaf->keys[i];
             if (key > high) {
-                std::cout<<"\n";
-                return;
+                return out;
             }
-            if (!first) {
-                std::cout<<",";
-            }
-            first = false;
-            std::cout<<key;
+            out.push_back(&leaf->values[i]);
         }
         //next leaf
         leaf = leaf->next;
         idx=0;
     }
-    std::cout<<"\n";
+    return out;
 }
 template<typename K, typename V>
 void BPlusTree<K, V>::printTree() {
@@ -347,7 +340,7 @@ void BPlusTree<K, V>::insert(K key, V value) {
     LeafNode* leaf = findLeaf(key);
 
     //finds where to insert the key
-    auto it = lower_bound(leaf->keys.begin(), leaf->keys.end(), key);
+    auto it = std::lower_bound(leaf->keys.begin(), leaf->keys.end(), key);
     int index = it - leaf->keys.begin();
 
     leaf->keys.insert(leaf->keys.begin() + index, key);
@@ -357,11 +350,11 @@ void BPlusTree<K, V>::insert(K key, V value) {
     }
 }
 template <typename K, typename V>
-BPlusTree<K, V>::BPlusTree(int order) : root(nullptr), order(order) {}
+BPlusTree<K, V>::BPlusTree(size_t order) : root(nullptr), order(order) {}
 
 
 extern template class BPlusTree<int, std::string>;
-extern template class BPlusTree<std::string, House>;
+extern template class BPlusTree<float, House>;
 
 
 

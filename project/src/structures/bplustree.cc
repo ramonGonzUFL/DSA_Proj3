@@ -2,4 +2,4 @@
 #include <queue>
 
 template class BPlusTree<int, std::string>;
-template class BPlusTree<std::string, House>;
+template class BPlusTree<float, House>;

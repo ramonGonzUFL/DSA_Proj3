@@ -32,9 +32,9 @@ public:
 
     RBTree* search(RBTree* node, float price);
 
-    std::vector<RBTree*> price_range(int min, int max);
+    std::vector<House*> price_range(float min, float max);
 
-    void price_range_helper(RBTree* node, int min, int max, std::vector<RBTree*>& result);
+    void price_range_helper(RBTree* node, float min, float max, std::vector<House*>& result);
 
     void inorder_traversal(RBTree* node, std::map<float, Color>& result);
 
