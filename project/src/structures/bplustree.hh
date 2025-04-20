@@ -1,5 +1,7 @@
 #pragma once
+#include <cstddef>
 #include <iostream>
+#include <limits>
 #include <vector>
 #include <memory>
 #include <functional>
@@ -29,7 +31,7 @@ private:
         LeafNode() : next(nullptr) {this->isLeaf = true;}
     };
     Node* root;
-    int order;
+    size_t order;
     LeafNode* findLeaf(K key);
     void splitLeaf(LeafNode* leaf);
     void insertIntoParent(Node* olderChild, K key, Node* newChild);
@@ -136,7 +138,7 @@ void BPlusTree<K, V>::printLeaves() {
     std::cout << "Leaf nodes: "<< std::endl;
     while(leaf!=nullptr){
         std::cout << "[";
-        for(int i = 0; i < leaf->keys.size(); ++i){
+        for(size_t i = 0; i < leaf->keys.size(); ++i){
             std::cout << leaf->keys[i]<<" ";
         }
         std::cout << "]" << std::endl;
@@ -233,15 +235,15 @@ void BPlusTree<K, V>::insertIntoParent(Node* olderChild, K key, Node* newChild) 
 
 
     //find the index of oldChild in parent's children
-    int insertPos = -1;
-    for (int i = 0; i < parent->children.size(); ++i) {
+    size_t insertPos = std::numeric_limits<size_t>::max();
+    for (size_t i = 0; i < parent->children.size(); ++i) {
         if (parent->children[i] == olderChild) {
             insertPos = i;
             break;
         }
     }
 
-    if (insertPos == -1) {
+    if (insertPos == std::numeric_limits<size_t>::max()) {
         std::cerr << "[insertIntoParent]  ERROR: olderChild not found in parent->children!" << std::endl;
         return;
     }
@@ -318,7 +320,7 @@ typename BPlusTree<K, V>::LeafNode* BPlusTree<K, V>::findLeaf(K key) {
     */
     while (!current->isLeaf) {
         InternalNode* internal = static_cast<InternalNode*>(current);
-        int i = 0;
+        size_t i = 0;
         while (i < internal->keys.size() && key >= internal->keys[i]) {
             ++i;
         }
