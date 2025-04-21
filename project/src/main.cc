@@ -157,7 +157,7 @@ int main() {
 
   //Website Title
   auto title = std::make_shared<Label>(
-          "Red-Hot House Hunter",sf::Vector2f(100, 125),font,sf::Vector2f(0, 0),36,sf::Color(230, 230, 230),sf::Color::Black);
+          "Red-Hot House Hunter",sf::Vector2f(80, 125),font,sf::Vector2f(0, 0),36,sf::Color(230, 230, 230),sf::Color::Black);
 
   //"Buy" on banner
   auto buy = std::make_shared<Label>(
@@ -179,14 +179,14 @@ int main() {
   int total_pages = (filtered.size() + 3) / 4; // 4 houses per page
 
   auto prev_button = std::make_shared<Button>(
-      "Previous", sf::Vector2f(450, 650), font, sf::Vector2f(120, 40));
-  auto next_button = std::make_shared<Button>("Next", sf::Vector2f(590, 650),
-                                              font, sf::Vector2f(120, 40));
+      "Previous", sf::Vector2f(490, 650), font, sf::Vector2f(140, 40));
+  auto next_button = std::make_shared<Button>("Next", sf::Vector2f(650, 650),
+                                              font, sf::Vector2f(140, 40));
 
   auto page_indicator =
       std::make_shared<Label>("Page " + std::to_string(current_page + 1) +
                                   " of " + std::to_string(total_pages),
-                              sf::Vector2f(500, 600), font, sf::Vector2f{0, 0},
+                              sf::Vector2f(500, 600), font, sf::Vector2f{280, 60},
                               24, sf::Color::Transparent, sf::Color::Black);
 
   // Initially disable previous button on first page
