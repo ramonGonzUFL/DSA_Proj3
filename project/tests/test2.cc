@@ -2,6 +2,7 @@
 #include "../src/structures/redblack.hh"
 #include <cassert>
 #include <map>
+#include <vector>
 #include <iostream>
 
 House test_value(float price) {
@@ -44,11 +45,28 @@ int main(){
             }
         }
 
-        std::cout << "Test passed. Tree matches." << std::endl;
+        //checks if range is correct
+        auto range_nodes = redblacktree.price_range(2, 4);
+        std::vector<float> expectedrange = {2, 3, 4};
+        if (range_nodes.size() != expectedrange.size()){
+            std::cerr << "price_range returned " << range_nodes.size()
+                      << " nodes; expected " << expectedrange.size() << "\n";
+            return 1;
+        }
+        for (size_t i = 0; i < expectedrange.size(); ++i){
+            float got_price = range_nodes[i]->price;
+            if (got_price != expectedrange[i]){
+                std::cerr << "price_range[" << i << "] = " << got_price
+                          << "; expected " << expectedrange[i] << "\n";
+                return 1;
+            }
+        }
+
+        std::cout << "Test passed. Tree matches and range is correct." << std::endl;
         return 0;
     }
     catch(const std::exception& e){
-        std::cerr << "Test failed. Tree does not match expected." << e.what() << std::endl;
+        std::cerr << "Test failed: " << e.what() << std::endl;
         return 1;
     }
 }

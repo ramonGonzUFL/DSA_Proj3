@@ -5,7 +5,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# Fetch SFML
+#Fetch SFML
 include(FetchContent)
 FetchContent_Declare(SFML
     GIT_REPOSITORY https://github.com/SFML/SFML.git
@@ -32,6 +32,7 @@ file(GLOB_RECURSE SRC_FILES "src/*.cc")
 list(REMOVE_ITEM SRC_FILES "${CMAKE_SOURCE_DIR}/src/main.cc")
 
 add_library(project_lib STATIC ${SRC_FILES})
+
 target_include_directories(project_lib PUBLIC
     ${CMAKE_SOURCE_DIR}/src
     ${SFML_INCLUDE_DIRS}  # Propagate SFML includes

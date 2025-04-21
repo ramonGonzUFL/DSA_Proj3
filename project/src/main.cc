@@ -23,7 +23,7 @@ load_page(const std::vector<House *> &houses, int page_number,
   size_t end_idx = std::min(start_idx + entries_per_page, houses.size());
 
   // Fixed position for the first label set
-  sf::Vector2f position(600, 100);
+  sf::Vector2f position(700, 100);
   float y_offset_between_houses =
       120.0f; // Vertical spacing between house entries
   float y_offset_between_labels =
@@ -125,7 +125,7 @@ int main() {
       sf::Vector2f(5, 720 - 60 - 5), font, sf::Vector2f{0, 0}, 20,
       sf::Color::Transparent, sf::Color(150, 150, 150));
 
-  auto swap_mode = std::make_shared<Button>("Swap", sf::Vector2f(20, 20), font);
+  auto swap_mode = std::make_shared<Button>("Swap", sf::Vector2f(100, 250), font);
 
   int current_mode = 0;
   auto mode_rb =
@@ -137,17 +137,42 @@ int main() {
 
   // Min price slider
   auto min_price_slider = std::make_shared<Slider>(
-      sf::Vector2f(100, 200), min_price, max_price, min_price, font,
+      sf::Vector2f(150, 375), min_price, max_price, min_price, font,
       sf::Vector2f(250, 10), "Min Price");
 
   // Max price slider
   auto max_price_slider = std::make_shared<Slider>(
-      sf::Vector2f(100, 300), min_price, max_price, max_price, font,
+      sf::Vector2f(150, 450), min_price, max_price, max_price, font,
       sf::Vector2f(250, 10), "Max Price");
 
   // Search button
   auto search_button = std::make_shared<Button>(
-      "Search", sf::Vector2f(175, 400), font, sf::Vector2f(100, 40));
+      "Search", sf::Vector2f(225, 500), font, sf::Vector2f(100, 40));
+
+  //white banner
+  sf::RectangleShape top_banner;
+  top_banner.setSize(sf::Vector2f(1280, 60));
+  top_banner.setPosition(sf::Vector2f(0.f, 0.f));
+  top_banner.setFillColor(sf::Color::White);
+
+  //Website Title
+  auto title = std::make_shared<Label>(
+          "Red-Hot House Hunter",sf::Vector2f(100, 125),font,sf::Vector2f(0, 0),36,sf::Color(230, 230, 230),sf::Color::Black);
+
+  //"Buy" on banner
+  auto buy = std::make_shared<Label>(
+            "BUY", sf::Vector2f(250, 3), font, sf::Vector2f(0, 0), 24,
+            sf::Color::Transparent, sf::Color::Black);
+
+  //"Search" on banner
+  auto search = std::make_shared<Label>(
+            "SEARCH", sf::Vector2f(950, 3), font, sf::Vector2f(0, 0), 24,
+            sf::Color::Transparent, sf::Color::Black);
+
+  //Quote on banner
+  auto quote = std::make_shared<Label>(
+            "-- FIND YOUR DREAM HOME --", sf::Vector2f(450, 3), font, sf::Vector2f(0, 0), 24,
+            sf::Color::Transparent, sf::Color::Black);
 
   // Page navigation
   int current_page = 0;
@@ -267,8 +292,14 @@ int main() {
       }
     }
 
-    window.clear(sf::Color::White);
+    window.clear(sf::Color(224, 240, 255));
+
+    window.draw(top_banner);
     loaded_stats->draw(window);
+    title->draw(window);
+    buy->draw(window);
+    search->draw(window);
+    quote->draw(window);
 
     swap_mode->draw(window);
     if (current_mode == 0) {
