@@ -15,10 +15,8 @@ In a general sense, run the "main" target in the cmake configuration. Make sure 
 # In the `project` folder
 cmake -S . -B build
 cmake --build build -j --target main
-./build/bin/main # Unix
+# For Unix
+./build/bin/main
+# For Windows
+build\bin\Debug\main.exe
 ```
-or
-```bash
-build\bin\main.exe # Windows
-```
-
